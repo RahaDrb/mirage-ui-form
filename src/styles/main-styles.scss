@@ -1,0 +1,108 @@
+@import "colors";
+
+body {
+  background-color: $bgColor;
+  font-family: $font;
+}
+
+.form-container {
+  max-width: 64vw;
+  width: 100%;
+  margin: 0 auto;
+}
+.main-form {
+
+  &-wrapper {
+    width: 100vw;
+    margin-top: 180px;
+
+    &-inner {
+      width: 100%;
+      background-color: #fff;
+      border-radius: $radius;
+      box-shadow: $shadow;
+      padding: 18px 24px;
+      text-align: left;
+    }
+  }
+
+  &-header {
+    font-size: 20px;
+    padding: 0 32px 6px;
+  }
+}
+
+.form-label-text {
+  color: $labelColor;
+}
+
+.input-element {
+  border: 1px solid $lightGray;
+  border-radius: $inputRadius;
+
+  &::placeholder {
+    color: $textBlack;
+  }
+}
+
+.modal-input {
+  cursor: pointer;
+  caret-color: transparent;
+}
+
+.options-grid {
+  grid-template-columns: 0.5fr 0.4fr 10.6fr 0.5fr;
+
+  svg {
+    cursor: pointer;
+  }
+}
+
+.option-check {
+  input {
+    border: 2px solid #000;
+    border-radius: 4px;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px !important;
+    cursor: pointer;
+
+    &:checked {
+      background-color: $lightBlue;
+      border-color: $lightBlue;
+    }
+    &:focus {
+      box-shadow: none;
+      border-color: #000;
+    }
+    &:checked:focus {
+      background-color: $lightBlue;
+      border-color: $lightBlue;
+    }
+  }
+}
+
+.option-delete {
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+.simple-button {
+  background: #fff;
+  border: 0;
+}
+.add-option-button {
+  min-width: 120px;
+  color: $lightBlue;
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+.form-buttons {
+  width: 100%;
+}
+.form-submit-button {
+  min-width: 180px;
+}
