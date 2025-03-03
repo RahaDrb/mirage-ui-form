@@ -7,25 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {checkEmptyString} from "../../functions/main";
 import {useErrorStore} from "../../stores/useErrorStore";
 import CommonToast from "../common/CommonToast";
-
-interface Choice {
-    checked: boolean;
-    text: string;
-    order: number;
-}
-
-interface QuestionData {
-    questionText: string;
-    questionType: number;
-    choices: Choice[];
-}
-
-interface ApiResponse {
-    question: {
-        id: number | string;
-    };
-    status: number;
-}
+import {ApiResponse, Choice, QuestionData} from "../../common/interfaces";
 
 function MainFormWrapper() {
     const {

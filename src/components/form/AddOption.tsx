@@ -1,14 +1,9 @@
 import React from 'react';
 import { Plus } from 'react-feather';
 import {defaultChoice, useFormStore} from '../../stores/useFormStore';
+import {Choice} from "../../common/interfaces";
 
-interface Choice {
-    id: number;
-    name: string;
-    checked: boolean;
-    order: number;
-    text: string;
-}
+
 
 function AddOption(): React.JSX.Element {
     const { choices, setChoices } = useFormStore();

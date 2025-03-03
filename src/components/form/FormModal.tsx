@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import {Choice, defaultChoice, useFormStore} from '../../stores/useFormStore';
+import {defaultChoice, useFormStore} from '../../stores/useFormStore';
 import FormSelect from './FormSelect';
 import CommonButton from '../common/CommonButton';
 import useTypesQuery from '../../queries/useTypesQuery';
 import Loading from '../common/Loading';
 import CommonToast from '../common/CommonToast';
+import {Choice} from "../../common/interfaces";
 
 function FormModal(): React.JSX.Element {
     const { show, setShow, option, setOption, setOptions, options, setChoices, choices } = useFormStore();

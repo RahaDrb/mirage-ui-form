@@ -1,11 +1,6 @@
 import React, { MouseEvent } from 'react';
+import {FormLabelProps} from "../../common/interfaces";
 
-interface FormLabelProps {
-    label: string;
-    htmlFor: string | number;
-    modal?: boolean;
-    setShow?: (value: boolean) => void;
-}
 
 function FormLabel({ label, htmlFor, modal, setShow }: FormLabelProps): React.JSX.Element {
     const handleClick = (event: MouseEvent<HTMLLabelElement>) => {

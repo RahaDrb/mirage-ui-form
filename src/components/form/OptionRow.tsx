@@ -2,12 +2,14 @@ import React from 'react';
 import {Menu} from "react-feather";
 import FormInput from "./FormInput";
 import DeleteOption from "./DeleteOption";
-import {Choice, useFormStore} from "../../stores/useFormStore";
+import {useFormStore} from "../../stores/useFormStore";
+import {Choice} from "../../common/interfaces";
 
 
 interface OptionRowProps {
     item: Choice;
 }
+
 function OptionRow({item}: OptionRowProps) {
     const {choices, setChoices, option} = useFormStore()
 
@@ -16,14 +18,14 @@ function OptionRow({item}: OptionRowProps) {
         let ind = tmp.findIndex(s => s.id === item.id);
         switch (type) {
             case "checkbox":
-                if(option === 2) {
-                    tmp[ind].checked = typeof(val) === 'boolean' ? val : false
+                if (option === 2) {
+                    tmp[ind].checked = typeof (val) === 'boolean' ? val : false
                 } else {
                     for (let i of tmp) {
                         let index = tmp.findIndex(s => s.id === i.id);
                         tmp[index].checked = false
                     }
-                    tmp[ind].checked = typeof(val) === 'boolean' ? val : false
+                    tmp[ind].checked = typeof (val) === 'boolean' ? val : false
                 }
                 break
             case "text":
@@ -35,7 +37,7 @@ function OptionRow({item}: OptionRowProps) {
 
     return (
         <div className={'mb-2 px-2 d-grid align-items-center options-grid'}
-             >
+        >
             <div className={'option-sorter'}>
                 <Menu className={'gray-col'}
                 />
@@ -54,7 +56,9 @@ function OptionRow({item}: OptionRowProps) {
                            ariaLabel={`optionInput`}
                 />
             </div>
-            <DeleteOption idx={item.id}/>
+            {item.id ? (
+                <DeleteOption idx={item?.id}/>
+            ) : null}
         </div>
     );
 }

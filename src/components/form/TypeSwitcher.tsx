@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
-import OptionRow from './OptionRow';
 import AddOption from './AddOption';
-import {Choice, useFormStore} from '../../stores/useFormStore';
+import {useFormStore} from '../../stores/useFormStore';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { RowItem } from './RowItem';
+import {Choice} from "../../common/interfaces";
 
 function TypeSwitcher(): React.JSX.Element {
     const { choices, setChoices } = useFormStore();

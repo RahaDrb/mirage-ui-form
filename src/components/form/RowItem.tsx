@@ -7,7 +7,7 @@ const ItemTypes = {
 };
 
 interface RowItemProps {
-    id: number;
+    id?: number;
     index: number;
     moveItem: (dragIndex: number, hoverIndex: number) => void;
     item: any;
@@ -46,6 +46,7 @@ export const RowItem = ({ id, index, moveItem, item }: RowItemProps): React.JSX.
 
     drag(drop(ref));
 
+    if(!id) return <></>
     return (
         <div
             ref={ref}

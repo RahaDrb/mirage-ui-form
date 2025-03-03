@@ -1,19 +1,6 @@
 import React, {ChangeEvent, MouseEvent} from 'react';
 import Form from 'react-bootstrap/Form';
-
-interface FormInputProps {
-    id?: string | number;
-    label?: string;
-    type: string;
-    ariaLabel?: string;
-    value: string | boolean;
-    setValue?: (value: string | boolean, id?: string) => void;
-    modal?: boolean;
-    setShow?: (value: boolean) => void;
-    htmlFor?: string | number;
-    placeholder?: string;
-    className?: string;
-}
+import {FormInputProps} from "../../common/interfaces";
 
 function FormInput({
                        id,

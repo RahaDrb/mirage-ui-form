@@ -1,29 +1,6 @@
 import { create, StateCreator } from 'zustand';
+import {Choice, FormState, OptionObject} from "../common/interfaces";
 
-export interface Choice {
-    id: number;
-    name: string;
-    checked: boolean;
-    order: number;
-    text: string;
-}
-export interface OptionObject {
-    id: string;
-    name: string;
-}
-interface FormState {
-    question: string;
-    show: boolean;
-    options: OptionObject[];
-    option: number;
-    choices: Choice[];
-    setQuestion: (value: string) => void;
-    setShow: (value: boolean) => void;
-    setOptions: (value: OptionObject[]) => void;
-    setOption: (value: number) => void;
-    setChoices: (value: Choice[]) => void;
-    resetForm: () => void;
-}
 
 export const defaultChoice: Choice = {
     id: 1,
