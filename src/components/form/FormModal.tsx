@@ -17,20 +17,20 @@ function FormModal(): React.JSX.Element {
     useEffect(() => {
         if (isLoading || error || !show || !data) return;
         setOptions(data.questionTypes);
-    }, [data, show, isLoading, error, setOptions]);
+    }, [data, show, isLoading, error]);
 
     useEffect(() => {
         if (show) {
             setChoices([JSON.parse(JSON.stringify(defaultChoice))]);
         }
-    }, [option, show, setChoices]);
+    }, [option]);
 
     useEffect(() => {
         if (show) {
             setPrevOption(option);
             setPrevChoices([...choices]);
         }
-    }, [show, option, choices]);
+    }, [show]);
 
     const handleClose = () => {
         setOption(prevOption);

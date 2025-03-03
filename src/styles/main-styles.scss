@@ -9,10 +9,12 @@ body {
   max-width: 64vw;
   width: 64vw;
   margin: 0 auto;
+
   &-inner {
     width: 100%;
   }
 }
+
 .main-layout {
 
   &-wrapper {
@@ -54,6 +56,7 @@ body {
 
 .options-grid {
   grid-template-columns: 0.5fr 0.4fr 10.6fr 0.5fr;
+  gap: 4px;
 
   svg {
     cursor: pointer;
@@ -73,10 +76,12 @@ body {
       background-color: $lightBlue;
       border-color: $lightBlue;
     }
+
     &:focus {
       box-shadow: none;
       border-color: #000;
     }
+
     &:checked:focus {
       background-color: $lightBlue;
       border-color: $lightBlue;
@@ -90,21 +95,32 @@ body {
     height: 20px;
   }
 }
+
 .simple-button {
   background: #fff;
   border: 0;
 }
+
 .add-option-button {
   min-width: 120px;
   color: $lightBlue;
+
   svg {
     width: 16px;
     height: 16px;
   }
 }
+
 .form-buttons {
   width: 100%;
 }
+
 .form-submit-button {
   min-width: 180px;
+}
+
+@media (max-width: 768px) {
+  .form-buttons {
+    flex-direction: column;
+  }
 }
