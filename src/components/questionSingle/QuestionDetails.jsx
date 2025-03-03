@@ -16,7 +16,7 @@ function QuestionDetails(props) {
     return (
         <form onSubmit={handleSubmit}>
             <div className={'main-layout-wrapper-inner mb-3'}>
-                <p>{data?.question?.questionText}</p>
+                <h4>{data?.question?.questionText}</h4>
                 <TypeSwitcher data={data}/>
             </div>
             <div className={'form-buttons d-flex align-items-center justify-content-end gap-3'}>

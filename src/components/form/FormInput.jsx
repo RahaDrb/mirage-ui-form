@@ -3,10 +3,14 @@ import Form from 'react-bootstrap/Form';
 
 function FormInput(props) {
 
-    if (props?.type === 'checkbox') {
+    if (props?.type === 'checkbox' || props?.type === 'radio') {
         return (
-            <Form.Check className={'option-check'} aria-label={props.ariaLabel} value={props.value} onChange={e => {
-                props.setValue(e.target.checked);
+            <Form.Check
+                id={props.id}
+                label={props.label ?? undefined}
+                type={props.type} className={'option-check'} aria-label={props.ariaLabel}
+                checked={props.value} value={props.value} onChange={e => {
+                props.setValue(e.target.checked, props.id);
             }}/>
         )
     }
