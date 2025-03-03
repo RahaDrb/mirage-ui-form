@@ -4,7 +4,7 @@ import AddOption from "./AddOption";
 import {useFormStore} from "../../stores/useFormStore";
 
 function TypeSwitcher(props) {
-    const {choices, setChoices} = useFormStore();
+    const {choices} = useFormStore();
 
     return (
         <>

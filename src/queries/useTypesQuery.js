@@ -7,7 +7,7 @@ const getQuestions = async () => {
 };
 
 const useTypesQuery = (shouldFetch) => {
-    return useQuery('questionTypes', getQuestions, {
+    return useQuery(['questionTypes', shouldFetch], getQuestions, {
         enabled: shouldFetch,
     });
 };

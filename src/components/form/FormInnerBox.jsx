@@ -5,8 +5,13 @@ import TypeSwitcher from "./TypeSwitcher";
 import useTypesQuery from "../../queries/useTypesQuery";
 
 function FormInnerBox(props) {
-    const {option, question, setQuestion, show, options} = useFormStore()
-
+    const {
+        option, question, setQuestion, show, options, resetErrors,
+        choices
+    } = useFormStore()
+    useEffect(() => {
+        resetErrors()
+    }, [question, option, choices]);
     const findOptionValue = () => {
         if (!option) {
             return {name: ''}
@@ -18,10 +23,12 @@ function FormInnerBox(props) {
             <FormGroup label={'Question Text'} placeholder={'Enter Your Question'} htmlFor={'text'}
                        type={'text'}
                        value={question} setValue={setQuestion}
+                       id={1}
             />
             <FormGroup label={'Question Type'} placeholder={'Select an option'} htmlFor={'type'} modal
                        type={'text'}
                        value={findOptionValue()?.name}
+                       id={2}
             />
             {!!option ? (
                 <TypeSwitcher type={props.type}/>

@@ -5,7 +5,7 @@ function CommonButton(props) {
     return (
         <Button
             variant={props.variant}
-            onClick={props.onClick ? () => props.onClick() : undefined}
+            onClick={props.onClick ? (e) => props.onClick(e) : undefined}
             type={props.type}
             className={props.className ?? ""}
         >

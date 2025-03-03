@@ -11,7 +11,10 @@ export function makeServer({environment = 'development'} = {}) {
             questionType: Model,
             choice: Model.extend({
                 question: belongsTo(),
-            })
+            }),
+            response: Model.extend({
+                question: belongsTo(),
+            }),
         },
         seeds(server) {
             server.create("questionType", {id: 1, name: "Select"});
@@ -54,7 +57,42 @@ export function makeServer({environment = 'development'} = {}) {
                 }
                 return question;
             });
+            this.post('/responses', (schema, request) => {
+                let attrs = JSON.parse(request.requestBody);
 
+                if (!attrs.questionId) {
+                    return new Response(400, {}, { error: 'Question ID is required' });
+                }
+
+                const question = schema.questions.find(attrs.questionId);
+
+                if (!question) {
+                    return new Response(404, {}, { error: 'Question not found' });
+                }
+
+                let responseData = {};
+                if (question.questionType === 1 || question.questionType === 3) {
+                    if (!attrs.selectedChoiceId) {
+                        return new Response(400, {}, { error: 'Selected choice ID is required' });
+                    }
+                    responseData = {
+                        questionId: attrs.questionId,
+                        selectedChoiceId: attrs.selectedChoiceId,
+                    };
+                } else if (question.questionType === 2) {
+                    if (!attrs.selectedChoiceIds) {
+                        return new Response(400, {}, { error: 'Selected choice IDs are required' });
+                    }
+                    responseData = {
+                        questionId: attrs.questionId,
+                        selectedChoiceIds: attrs.selectedChoiceIds,
+                    };
+                } else {
+                    return new Response(400, {}, { error: 'Invalid question type' });
+                }
+
+                return schema.responses.create(responseData);
+            });
             this.passthrough();
             this.timing = 400;
         },

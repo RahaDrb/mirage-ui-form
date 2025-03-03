@@ -8,13 +8,13 @@ import useTypesQuery from "../../queries/useTypesQuery";
 function FormModal() {
     const {show, setShow, option, setOption, setOptions, options} = useFormStore()
     const [prevOption, setPrevOption] = useState('')
-    const { data, isLoading, error } = useTypesQuery(show);
+    const {data, isLoading, error} = useTypesQuery(show);
     useEffect(() => {
-        if(isLoading || error) return
+        if (isLoading || error) return
         setOptions(data)
     }, [data]);
     useEffect(() => {
-        if(show) {
+        if (show) {
             setPrevOption(option)
         }
     }, [show])
@@ -25,7 +25,7 @@ function FormModal() {
     const submitChanges = async () => {
         setShow(false)
     }
-
+//todo
     if (isLoading) {
         return <div>Loading...</div>;
     }
