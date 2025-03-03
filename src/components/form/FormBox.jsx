@@ -5,7 +5,7 @@ import FormModal from "./FormModal";
 
 function FormBox(props) {
     return (
-        <div className={'main-form-wrapper-inner'}>
+        <div className={'main-layout-wrapper-inner mb-3'}>
             <FormHeader text={"Question"}/>
             <FormInnerBox/>
             <FormModal/>

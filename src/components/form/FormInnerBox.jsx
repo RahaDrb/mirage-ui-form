@@ -2,17 +2,19 @@ import React, {useEffect, useState} from 'react';
 import FormGroup from "./FormGroup";
 import {useFormStore} from "../../stores/useFormStore";
 import TypeSwitcher from "./TypeSwitcher";
+import useTypesQuery from "../../queries/useTypesQuery";
 
 function FormInnerBox(props) {
-    const {option, setOption, question, setQuestion, options} = useFormStore()
+    const {option, question, setQuestion, show, options} = useFormStore()
+
     const findOptionValue = () => {
         if (!option) {
             return {name: ''}
         }
-        return options?.find(s => s.id === option)
+        return options?.questionTypes?.find(s => parseInt(s.id) === option)
     }
     return (
-        <form className={'form-field-wrapper d-flex flex-column'}>
+        <div className={'form-field-wrapper d-flex flex-column'}>
             <FormGroup label={'Question Text'} placeholder={'Enter Your Question'} htmlFor={'text'}
                        type={'text'}
                        value={question} setValue={setQuestion}
@@ -24,7 +26,7 @@ function FormInnerBox(props) {
             {!!option ? (
                 <TypeSwitcher type={props.type}/>
             ) : null}
-        </form>
+        </div>
     );
 }
 

@@ -5,15 +5,17 @@ body {
   font-family: $font;
 }
 
-.form-container {
+.main-container {
   max-width: 64vw;
-  width: 100%;
+  width: 64vw;
   margin: 0 auto;
+  &-inner {
+    width: 100%;
+  }
 }
-.main-form {
+.main-layout {
 
   &-wrapper {
-    width: 100vw;
     margin-top: 180px;
 
     &-inner {

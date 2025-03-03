@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Menu, X} from "react-feather";
+import React from 'react';
+import {Menu} from "react-feather";
 import FormInput from "./FormInput";
 import DeleteOption from "./DeleteOption";
 import {useFormStore} from "../../stores/useFormStore";

@@ -23,7 +23,7 @@ function FormInput(props) {
             placeholder={props.placeholder}
             value={props.value}
             onChange={e => {
-                props.setValue(e.target.value);
+                props.setValue && props.setValue(e.target.value);
             }}
         />
     );
