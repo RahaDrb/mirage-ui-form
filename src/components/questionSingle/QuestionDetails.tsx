@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
 import useQuestionQuery from '../../queries/useQuestionStore';
 import TypeSwitcher from './TypeSwitcher';
 import CommonButton from '../common/CommonButton';
 import axios from 'axios';
-import { useUIStore } from '../../stores/useUIStore';
-import { useErrorStore } from '../../stores/useErrorStore';
-import { checkEmptyString } from '../../functions/main';
+import {useUIStore} from '../../stores/useUIStore';
+import {useErrorStore} from '../../stores/useErrorStore';
+import {checkEmptyString} from '../../functions/main';
 import CommonToast from '../common/CommonToast';
 import Loading from "../common/Loading";
+import FormButtons from "../form/FormButtons";
 
 function QuestionDetails(): React.JSX.Element {
-    const { id } = useParams();
+    const {id} = useParams();
     const navigate = useNavigate();
-    const { option, checkedArr } = useUIStore();
-    const { setErrorId, setErrorMessage } = useErrorStore();
+    const {option, checkedArr} = useUIStore();
+    const {setErrorId, setErrorMessage} = useErrorStore();
     const [toastMsg, setToastMsg] = useState<string>('');
-    const { data, isLoading, error } = useQuestionQuery(id);
+    const {data, isLoading, error} = useQuestionQuery(id);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -29,9 +30,9 @@ function QuestionDetails(): React.JSX.Element {
                     return;
                 }
                 body = {
-                    questionId: parseInt(id as string),
-                selectedChoiceId: option,
-            };
+                    questionId: id,
+                    selectedChoiceId: option,
+                };
             } else {
                 if (!checkedArr || checkedArr.length < 1) {
                     setErrorId(4);
@@ -40,8 +41,8 @@ function QuestionDetails(): React.JSX.Element {
                 }
                 body = {
                     questionId: parseInt(id as string),
-                selectedChoiceIds: checkedArr,
-            };
+                    selectedChoiceIds: checkedArr,
+                };
             }
             await axios.post('/api/responses', body);
             navigate('/');
@@ -56,7 +57,8 @@ function QuestionDetails(): React.JSX.Element {
     }
 
     if (error) {
-        return <CommonToast error={"Error"} close={() => {}} className="mt-3" />;
+        return <CommonToast error={"Error"} close={() => {
+        }} className="mt-3"/>;
     }
 
     return (
@@ -64,14 +66,17 @@ function QuestionDetails(): React.JSX.Element {
             <form onSubmit={handleSubmit}>
                 <div className={'main-layout-wrapper-inner mb-3'}>
                     <h4>{data?.question?.questionText}</h4>
-                    <TypeSwitcher data={data} />
+                    <TypeSwitcher data={data}/>
                 </div>
-                <div className={'form-buttons d-flex align-items-center justify-content-end gap-3'}>
-                    <CommonButton text={'Submit'} variant={'primary'} type={'submit'} />
-                </div>
+                <FormButtons
+                    primaryText={'Save'}
+                    secondaryText={'Back'}
+                    onClick={() => {
+                        navigate(`/question/${id}`)
+                    }}/>
             </form>
             {checkEmptyString(toastMsg) ? null : (
-                <CommonToast error={toastMsg} close={() => setToastMsg('')} className="mt-3" />
+                <CommonToast error={toastMsg} close={() => setToastMsg('')} className="mt-3"/>
             )}
         </>
     );

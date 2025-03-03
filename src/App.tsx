@@ -17,6 +17,7 @@ function App(): JSX.Element {
                         <Routes>
                             <Route path="/" element={<MainFormWrapper />} />
                             <Route path="/questions/:id" element={<QuestionDetails />} />
+                            <Route path="/question/:id" element={<MainFormWrapper />} />
                         </Routes>
                     </Layout>
                 </div>

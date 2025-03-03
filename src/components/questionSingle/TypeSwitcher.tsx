@@ -16,13 +16,10 @@ function TypeSwitcher({data}: TypeSwitcherProps): JSX.Element {
     const {errorId, errorMessage, resetErrors} = useErrorStore();
 
     const findDefault = (multiple: boolean = false) => {
-
         if (multiple) {
             if (!data?.question?.choices) return [];
-
             return data.question.choices.filter((s) => s.checked).map((v) => v.id);
         }
-
         return data.question?.choices.find((s) => s.checked)?.id;
     };
 
@@ -39,7 +36,7 @@ function TypeSwitcher({data}: TypeSwitcherProps): JSX.Element {
             default:
                 break;
         }
-    }, [data, setOption, setCheckedArr]);
+    }, [data]);
 
     const handleChosen = (val: string | boolean, id?: number | string) => {
         setOption(Number(id));
@@ -72,7 +69,10 @@ function TypeSwitcher({data}: TypeSwitcherProps): JSX.Element {
                             name: c.text,
                         }))}
                         value={option}
-                        onChange={setOption}
+                        onChange={e => {
+                            setOption(e)
+                            resetErrors()
+                        }}
                     />
                 );
             case 2:
@@ -83,7 +83,7 @@ function TypeSwitcher({data}: TypeSwitcherProps): JSX.Element {
                         id={c.id?.toString()}
                         type={'checkbox'}
                         label={c.text}
-                        value={checkedArr?.includes(c.id)}
+                        value={checkedArr?.includes(c.id ?? 0)}
                         setValue={handleCheckedItems}
                     />
                 ));

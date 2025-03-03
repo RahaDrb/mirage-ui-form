@@ -78,6 +78,8 @@ function MainFormWrapper() {
                 onSubmit={handleSubmit}>
                 <FormBox/>
                 <FormButtons
+                    secondaryText={'Save as draft'}
+                    primaryText={'Continue'}
                     onClick={handleDraft}/>
             </form>
             {!!errorId && !checkEmptyString(toastMsg) ?
