@@ -6,7 +6,7 @@ import {useErrorStore} from "../../stores/useErrorStore";
 
 function FormInnerBox() {
     const {
-        option, question, setQuestion, show, options,
+        option, question, setQuestion, options,
         choices
     } = useFormStore()
     const {resetErrors} = useErrorStore()
@@ -14,6 +14,7 @@ function FormInnerBox() {
         resetErrors()
     }, [question, option, choices]);
     const findOptionValue = () => {
+
         if (!option) {
             return ''
         }

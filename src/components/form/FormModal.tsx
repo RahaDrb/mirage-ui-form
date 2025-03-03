@@ -9,15 +9,9 @@ import CommonToast from '../common/CommonToast';
 import {Choice} from "../../common/interfaces";
 
 function FormModal(): React.JSX.Element {
-    const { show, setShow, option, setOption, setOptions, options, setChoices, choices } = useFormStore();
+    const { show, setShow, option, setOption, options, setChoices, choices } = useFormStore();
     const [prevOption, setPrevOption] = useState<number>(0);
     const [prevChoices, setPrevChoices] = useState<Choice[]>([]);
-    const { data, isLoading, error } = useTypesQuery(show);
-
-    useEffect(() => {
-        if (isLoading || error || !show || !data) return;
-        setOptions(data.questionTypes);
-    }, [data, show, isLoading, error]);
 
     useEffect(() => {
         if (show) {
@@ -42,13 +36,6 @@ function FormModal(): React.JSX.Element {
         setShow(false);
     };
 
-    if (isLoading) {
-        return <Loading />;
-    }
-
-    if (error) {
-        return <CommonToast error={'Error'} close={() => {}} />;
-    }
     return (
         <Modal show={show} onHide={handleClose}>
             <div>

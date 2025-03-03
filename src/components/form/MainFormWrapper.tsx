@@ -3,24 +3,49 @@ import FormBox from "./FormBox";
 import FormButtons from "./FormButtons";
 import axios, {AxiosResponse} from "axios";
 import {defaultChoice, useFormStore} from "../../stores/useFormStore";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {checkEmptyString} from "../../functions/main";
 import {useErrorStore} from "../../stores/useErrorStore";
 import CommonToast from "../common/CommonToast";
 import {ApiResponse, Choice, QuestionData} from "../../common/interfaces";
+import useQuestionQuery from "../../queries/useQuestionStore";
+import Loading from "../common/Loading";
+import useTypesQuery from "../../queries/useTypesQuery";
 
 function MainFormWrapper() {
+    const {id} = useParams()
     const {
-        option, question, choices, resetForm, setChoices
+        option, question, choices, resetForm, setChoices, setQuestion, setOptions,
+        setOption
     } = useFormStore()
-    const { setErrorMessage, errorId, setErrorId, resetErrors } = useErrorStore();
+
+    const {setErrorMessage, errorId, setErrorId, resetErrors} = useErrorStore();
+    const {data, isLoading, error} = useQuestionQuery(id);
 
     const navigate = useNavigate();
+
+    const {data: typesData, isLoading: typesLoading, error: typesError} = useTypesQuery();
+
     useEffect(() => {
-        setChoices([defaultChoice])
-        resetErrors()
-        resetForm()
-    }, [navigate])
+        if (typesLoading || typesError || !typesData) return;
+        if (!id) {
+            setChoices([defaultChoice])
+            resetErrors()
+            resetForm()
+            setOptions(typesData.questionTypes);
+        } else {
+            if (isLoading || error || !data) return
+            resetErrors()
+            resetForm()
+            setOptions(typesData.questionTypes);
+
+            if (data?.question) {
+                setQuestion(data.question.questionText)
+                setChoices(data.question.choices)
+                setOption(Number(data.question.questionType))
+            }
+        }
+    }, [navigate, id, data, isLoading, error, typesData, typesLoading, typesError])
     const [toastMsg, setToastMsg] = useState('')
     const submit = async (draft: boolean) => {
         if (checkEmptyString(question)) {
@@ -48,15 +73,27 @@ function MainFormWrapper() {
                     order: q.order,
                 })),
             };
-            const res: AxiosResponse<ApiResponse> = await axios.post('/api/questions', body);
-
-            if (res.status < 300) {
-                localStorage.setItem(`question-${res.data.question.id}`, JSON.stringify(res.data));
-                if (draft) {
-                    setToastMsg('Question successfully drafted');
-                    resetForm();
-                } else {
-                    navigate(`/questions/${res.data.question.id}`);
+            let res: AxiosResponse<ApiResponse>;
+            if(!!id) {
+                res = await axios.put(`/api/questions/${id}`, body);
+                if(res.status < 300) {
+                    if (draft) {
+                        setToastMsg('Question successfully drafted');
+                        navigate(`/`);
+                    } else {
+                        navigate(`/questions/${id}`);
+                    }
+                }
+            } else {
+                res = await axios.post('/api/questions', body);
+                if (res.status < 300) {
+                    // localStorage.setItem(`question-${res.data.question.id}`, JSON.stringify(res.data));
+                    if (draft) {
+                        setToastMsg('Question successfully drafted');
+                        resetForm();
+                    } else {
+                        navigate(`/questions/${res.data.question.id}`);
+                    }
                 }
             }
         } catch (error: any) {
@@ -72,6 +109,9 @@ function MainFormWrapper() {
         e.preventDefault();
         await submit(false)
     };
+    if (!!id && isLoading) {
+        return <Loading/>;
+    }
     return (
         <>
             <form

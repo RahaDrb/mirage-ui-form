@@ -1,4 +1,5 @@
 import {belongsTo, createServer, hasMany, Model, Response} from 'miragejs';
+import {QuestionData} from "../common/interfaces";
 
 export function makeServer({environment = 'development'} = {}) {
     return createServer({
@@ -20,7 +21,6 @@ export function makeServer({environment = 'development'} = {}) {
             server.create("questionType", {id: 1, name: "Select"});
             server.create("questionType", {id: 2, name: "Checkbox"});
             server.create("questionType", {id: 3, name: "Radio"});
-            server.create("choice", {id: 1, text: "Option 1", order: 1});
         },
         routes() {
             this.namespace = 'api';
@@ -34,8 +34,9 @@ export function makeServer({environment = 'development'} = {}) {
                 if (!attrs.questionText || !attrs.questionType) {
                     return new Response(400, {}, {error: 'Invalid question data'});
                 }
-                const allChoices = schema.choices.all();
                 let lastChoiceId = 0;
+                const allChoices = schema.choices.all();
+
                 if (allChoices.length > 0) {
                     lastChoiceId = Math.max(...allChoices.models.map((c) => c.id));
                 }
@@ -57,23 +58,61 @@ export function makeServer({environment = 'development'} = {}) {
                 }
                 return question;
             });
+
+            this.put('/questions/:id', (schema, request) => {
+                const id = request.params.id;
+                const attrs = JSON.parse(request.requestBody);
+                const question = schema.find('question', id);
+
+                if (!question) {
+                    return new Response(404, {}, {error: 'Question not found'});
+                }
+
+                const allChoices = schema.choices.all();
+
+                let lastChoiceId = 0;
+                if (allChoices.models.length > 0) {
+                    const choiceIds = allChoices.models.map((c) => Number(c.id));
+                    lastChoiceId = Math.max(...choiceIds);
+                }
+                if (question.choices) {
+                    question.choices.forEach((choice) => {
+                        schema.db.choices.remove(choice.id);
+                    });
+                }
+                const newChoices = attrs.choices.map((choice, index) => ({
+                    ...choice,
+                    id: lastChoiceId + index + 1,
+                }));
+                newChoices.forEach((choiceAttrs) => {
+                    schema.create('choice', {...choiceAttrs, questionId: id});
+                });
+                const updatedChoices = schema.db.choices.where({ questionId: id });
+                question.update({
+                    questionText: attrs.questionText,
+                    questionType: attrs.questionType,
+                    choices: updatedChoices,
+                });
+                return question;
+            });
+
             this.post('/responses', (schema, request) => {
                 let attrs = JSON.parse(request.requestBody);
 
                 if (!attrs.questionId) {
-                    return new Response(400, {}, { error: 'Question ID is required' });
+                    return new Response(400, {}, {error: 'Question ID is required'});
                 }
 
                 const question = schema.questions.find(attrs.questionId);
 
                 if (!question) {
-                    return new Response(404, {}, { error: 'Question not found' });
+                    return new Response(404, {}, {error: 'Question not found'});
                 }
 
                 let responseData = {};
                 if (question.questionType === 1 || question.questionType === 3) {
                     if (!attrs.selectedChoiceId) {
-                        return new Response(400, {}, { error: 'Selected choice ID is required' });
+                        return new Response(400, {}, {error: 'Selected choice ID is required'});
                     }
                     responseData = {
                         questionId: attrs.questionId,
@@ -81,14 +120,14 @@ export function makeServer({environment = 'development'} = {}) {
                     };
                 } else if (question.questionType === 2) {
                     if (!attrs.selectedChoiceIds) {
-                        return new Response(400, {}, { error: 'Selected choice IDs are required' });
+                        return new Response(400, {}, {error: 'Selected choice IDs are required'});
                     }
                     responseData = {
                         questionId: attrs.questionId,
                         selectedChoiceIds: attrs.selectedChoiceIds,
                     };
                 } else {
-                    return new Response(400, {}, { error: 'Invalid question type' });
+                    return new Response(400, {}, {error: 'Invalid question type'});
                 }
 
                 return schema.responses.create(responseData);

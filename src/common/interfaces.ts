@@ -24,6 +24,14 @@ export interface FormState {
     resetForm: () => void;
 }
 
+export interface ErrorState {
+    errorMessage: string;
+    errorId: number;
+    setErrorMessage: (value: string) => void;
+    setErrorId: (value: number) => void;
+    resetErrors: () => void;
+}
+
 export interface FormLabelProps {
     label: string;
     htmlFor: string | number;

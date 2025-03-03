@@ -8,9 +8,9 @@ const getQuestion = async ({ queryKey }) => {
     return response.data;
 };
 
-const useQuestionQuery = (id) => {
-    return useQuery([id], getQuestion, {
-        enabled: !!id
+const useQuestionQuery = (id, fetch) => {
+    return useQuery([id, fetch], getQuestion, {
+        enabled: fetch
     });
 };
 export default useQuestionQuery;

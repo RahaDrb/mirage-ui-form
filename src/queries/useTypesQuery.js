@@ -6,9 +6,7 @@ const getQuestions = async () => {
     return response.data;
 };
 
-const useTypesQuery = (shouldFetch) => {
-    return useQuery(['questionTypes', shouldFetch], getQuestions, {
-        enabled: shouldFetch,
-    });
+const useTypesQuery = () => {
+    return useQuery('questionTypes', getQuestions);
 };
 export default useTypesQuery;

@@ -17,7 +17,14 @@ function QuestionDetails(): React.JSX.Element {
     const {option, checkedArr} = useUIStore();
     const {setErrorId, setErrorMessage} = useErrorStore();
     const [toastMsg, setToastMsg] = useState<string>('');
-    const {data, isLoading, error} = useQuestionQuery(id);
+    const [fetch, setFetch] = useState(false)
+    const {data, isLoading, error} = useQuestionQuery(id, fetch);
+    useEffect(() => {
+        setFetch(true)
+    }, []);
+    useEffect(() => {
+        console.log(data)
+    }, [data]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
