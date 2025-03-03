@@ -9,10 +9,9 @@ function AddOption() {
     );
     const addOptionRow = () => {
         let tmp = [...choices];
-        const newId = tmp[tmp.length - 1].id + 1;
         tmp = [...tmp, {
-            id: newId,
-            name: `Option ${newId}`,
+            id: itemWithLargestOrder.order + 1,
+            name: `Option ${itemWithLargestOrder.order + 1}`,
             checked: false,
             order: itemWithLargestOrder.order + 1,
         }]

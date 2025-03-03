@@ -6,6 +6,7 @@ import {useFormStore} from "../../stores/useFormStore";
 import {useNavigate} from "react-router-dom";
 import {checkEmptyString} from "../../functions/main";
 import {useErrorStore} from "../../stores/useErrorStore";
+import DAndD from "./DAndD";
 
 
 function MainFormWrapper() {
@@ -72,6 +73,7 @@ function MainFormWrapper() {
                 <FormBox/>
                 <FormButtons handleSubmit={handleSubmit}/>
             </form>
+            {/*<DAndD/>*/}
         </>
     );
 }
