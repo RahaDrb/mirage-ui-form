@@ -3,10 +3,20 @@ import FormLabel from "./FormLabel";
 import FormInput from "./FormInput";
 import {useFormStore} from "../../stores/useFormStore";
 import SubmitError from "../common/SubmitError";
-import {checkEmptyString} from "../../functions/main";
-
-function FormGroup(props) {
-    const {setShow, errorMessage, errorId} = useFormStore()
+import {useErrorStore} from "../../stores/useErrorStore";
+interface FormGroupProps {
+    label: string;
+    htmlFor: string | number;
+    placeholder?: string;
+    type: string;
+    value: string | boolean;
+    setValue?: (value: string | boolean, id?: number | string) => void;
+    modal?: boolean;
+    id?: number | string;
+}
+function FormGroup(props: FormGroupProps) {
+    const {setShow} = useFormStore()
+    const {errorMessage, errorId} = useErrorStore()
 
     return (
         <div className={'mb-3'}>

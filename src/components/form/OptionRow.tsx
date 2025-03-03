@@ -1,30 +1,33 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React from 'react';
 import {Menu} from "react-feather";
 import FormInput from "./FormInput";
 import DeleteOption from "./DeleteOption";
-import {useFormStore} from "../../stores/useFormStore";
+import {Choice, useFormStore} from "../../stores/useFormStore";
 
 
-function OptionRow({item}) {
+interface OptionRowProps {
+    item: Choice;
+}
+function OptionRow({item}: OptionRowProps) {
     const {choices, setChoices, option} = useFormStore()
 
-    const editOption = (val, type) => {
+    const editOption = (val: boolean | string, type: string) => {
         let tmp = [...choices];
         let ind = tmp.findIndex(s => s.id === item.id);
         switch (type) {
             case "checkbox":
                 if(option === 2) {
-                    tmp[ind].checked = val
+                    tmp[ind].checked = typeof(val) === 'boolean' ? val : false
                 } else {
                     for (let i of tmp) {
                         let index = tmp.findIndex(s => s.id === i.id);
                         tmp[index].checked = false
                     }
-                    tmp[ind].checked = val
+                    tmp[ind].checked = typeof(val) === 'boolean' ? val : false
                 }
                 break
             case "text":
-                tmp[ind].text = val
+                tmp[ind].text = val.toString()
                 break
         }
         setChoices(tmp);

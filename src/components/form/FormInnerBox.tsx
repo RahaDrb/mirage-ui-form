@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import FormGroup from "./FormGroup";
 import {useFormStore} from "../../stores/useFormStore";
 import TypeSwitcher from "./TypeSwitcher";
-import useTypesQuery from "../../queries/useTypesQuery";
 import {useErrorStore} from "../../stores/useErrorStore";
 
-function FormInnerBox(props) {
+function FormInnerBox() {
     const {
         option, question, setQuestion, show, options,
         choices
@@ -16,24 +15,25 @@ function FormInnerBox(props) {
     }, [question, option, choices]);
     const findOptionValue = () => {
         if (!option) {
-            return {name: ''}
+            return ''
         }
-        return options?.questionTypes?.find(s => parseInt(s.id) === option)
+        let tmp = [...options]
+        return tmp?.find((s: { id: string }) => Number(s.id) === option)?.name ?? ""
     }
     return (
         <div className={'form-field-wrapper d-flex flex-column'}>
             <FormGroup label={'Question Text'} placeholder={'Enter Your Question'} htmlFor={'text'}
                        type={'text'}
-                       value={question} setValue={setQuestion}
+                       value={question} setValue={val => setQuestion(val.toString())}
                        id={1}
             />
             <FormGroup label={'Question Type'} placeholder={'Select an option'} htmlFor={'type'} modal
                        type={'text'}
-                       value={findOptionValue()?.name}
+                       value={findOptionValue()}
                        id={2}
             />
             {!!option ? (
-                <TypeSwitcher type={props.type}/>
+                <TypeSwitcher/>
             ) : null}
         </div>
     );

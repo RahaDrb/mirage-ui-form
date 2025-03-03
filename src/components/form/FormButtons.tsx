@@ -1,7 +1,11 @@
-import React from 'react';
-import CommonButton from "../common/CommonButton";
+import React, {MouseEventHandler, JSX} from 'react';
+import CommonButton from '../common/CommonButton';
 
-function FormButtons({handleSubmit}) {
+interface FormButtonsProps {
+    onClick: MouseEventHandler<HTMLButtonElement>;
+}
+
+function FormButtons({onClick}: FormButtonsProps): JSX.Element {
     return (
         <div className={'form-buttons d-flex align-items-center justify-content-end gap-3'}>
             <CommonButton
@@ -9,7 +13,7 @@ function FormButtons({handleSubmit}) {
                 type={'button'}
                 text={'Save as Draft'}
                 className={'form-submit-button'}
-                onClick={(e) => handleSubmit(e, true)}
+                onClick={onClick}
             />
             <CommonButton
                 variant={'primary'}

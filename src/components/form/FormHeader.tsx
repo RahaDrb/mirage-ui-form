@@ -1,6 +1,10 @@
 import React from 'react';
 
-function FormHeader({text}) {
+interface HeaderProps {
+    text: string;
+}
+
+function FormHeader({text}: HeaderProps) {
     return (
         <h1 className={'main-layout-header'}>{text}</h1>
     );

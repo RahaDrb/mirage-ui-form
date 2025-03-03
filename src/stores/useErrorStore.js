@@ -2,7 +2,7 @@ import {create} from 'zustand';
 
 let initialData = {
     errorMessage: '',
-    errorId: null
+    errorId: 0
 }
 export const useErrorStore = create((set) => ({
     ...initialData,
@@ -10,6 +10,6 @@ export const useErrorStore = create((set) => ({
     setErrorId: (value) => set({errorId: value}),
     resetErrors: () => set({
         errorMessage: '',
-        errorId: null
+        errorId: 0
     }),
 }))
