@@ -3,12 +3,14 @@ import FormGroup from "./FormGroup";
 import {useFormStore} from "../../stores/useFormStore";
 import TypeSwitcher from "./TypeSwitcher";
 import useTypesQuery from "../../queries/useTypesQuery";
+import {useErrorStore} from "../../stores/useErrorStore";
 
 function FormInnerBox(props) {
     const {
-        option, question, setQuestion, show, options, resetErrors,
+        option, question, setQuestion, show, options,
         choices
     } = useFormStore()
+    const {resetErrors} = useErrorStore()
     useEffect(() => {
         resetErrors()
     }, [question, option, choices]);

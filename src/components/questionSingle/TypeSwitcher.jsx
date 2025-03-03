@@ -2,9 +2,12 @@ import React, {useEffect} from 'react';
 import FormSelect from "../form/FormSelect";
 import {useUIStore} from "../../stores/useUIStore";
 import FormInput from "../form/FormInput";
+import SubmitError from "../common/SubmitError";
+import {useErrorStore} from "../../stores/useErrorStore";
 
 function TypeSwitcher(props) {
     const {option, setOption, checkedArr, setCheckedArr} = useUIStore();
+    const {errorId, errorMessage, resetErrors} = useErrorStore();
     const findDefault = (arr) => {
         if (arr) {
             return props?.data?.question?.choices.filter(s => s.checked)?.map(v => v.id)
@@ -24,6 +27,7 @@ function TypeSwitcher(props) {
     }, [props.data])
     const handleChosen = (val, id) => {
         setOption(id)
+        resetErrors()
     }
     const handleCheckedItems = (val, id) => {
         let tmp = [...checkedArr]
@@ -35,6 +39,7 @@ function TypeSwitcher(props) {
         } else {
             tmp = tmp.filter(s => s !== id)
         }
+        resetErrors()
         setCheckedArr(tmp)
     }
     const switchType = () => {
@@ -82,7 +87,13 @@ function TypeSwitcher(props) {
                 return null
         }
     }
-    return (switchType());
+    return (
+        <>{switchType()}
+            {!!errorId && errorId === 4 ? (
+                <SubmitError text={errorMessage}/>
+            ) : null}
+        </>
+    );
 }
 
 export default TypeSwitcher;

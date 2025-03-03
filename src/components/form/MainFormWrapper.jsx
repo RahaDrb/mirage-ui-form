@@ -5,13 +5,16 @@ import axios from "axios";
 import {useFormStore} from "../../stores/useFormStore";
 import {useNavigate} from "react-router-dom";
 import {checkEmptyString} from "../../functions/main";
+import {useErrorStore} from "../../stores/useErrorStore";
 
 
 function MainFormWrapper() {
     const {
         option, question, choices, resetForm,
-        setErrorMessage, setErrorId
     } = useFormStore()
+    const {
+        setErrorMessage, setErrorId
+    } = useErrorStore()
     const navigate = useNavigate();
     useEffect(() => {
         resetForm()
