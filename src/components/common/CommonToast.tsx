@@ -14,7 +14,7 @@ function CommonToast({ error, className, close }: CommonToastProps): JSX.Element
             close();
         }, 1000);
 
-        return () => clearTimeout(timerId); // Cleanup function to clear timeout
+        return () => clearTimeout(timerId);
     }, [close]);
 
     return (
