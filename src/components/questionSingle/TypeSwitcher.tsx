@@ -20,7 +20,7 @@ function TypeSwitcher({data}: TypeSwitcherProps): JSX.Element {
             if (!data?.question?.choices) return [];
             return data.question.choices.filter((s) => s.checked).map((v) => v.id);
         }
-        return data.question?.choices.find((s) => s.checked)?.id;
+        return data.question?.choices.find((s) => s.checked)?.id ?? 0;
     };
 
     useEffect(() => {
@@ -39,8 +39,8 @@ function TypeSwitcher({data}: TypeSwitcherProps): JSX.Element {
     }, [data]);
 
     const handleChosen = (val: string | boolean, id?: number | string) => {
-        setOption(Number(id));
         resetErrors();
+        setOption(Number(id));
     };
 
     const handleCheckedItems = (val: string | boolean, id?: string) => {
@@ -70,8 +70,8 @@ function TypeSwitcher({data}: TypeSwitcherProps): JSX.Element {
                         }))}
                         value={option}
                         onChange={e => {
-                            setOption(e)
                             resetErrors()
+                            setOption(e)
                         }}
                     />
                 );

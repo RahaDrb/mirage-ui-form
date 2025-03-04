@@ -22,9 +22,6 @@ function QuestionDetails(): React.JSX.Element {
     useEffect(() => {
         setFetch(true)
     }, []);
-    useEffect(() => {
-        console.log(data)
-    }, [data]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
