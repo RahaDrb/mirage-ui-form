@@ -8,6 +8,7 @@ export function makeServer({environment = 'development'} = {}) {
         models: {
             question: Model.extend({
                 choice: hasMany(),
+                response: hasMany()
             }),
             questionType: Model,
             choice: Model.extend({
@@ -38,7 +39,8 @@ export function makeServer({environment = 'development'} = {}) {
                 const allChoices = schema.choices.all();
 
                 if (allChoices.length > 0) {
-                    lastChoiceId = Math.max(...allChoices.models.map((c) => c.id));
+                    const choiceIds = allChoices.models.map((c) => Number(c.id));
+                    lastChoiceId = Math.max(...choiceIds);
                 }
                 const newChoices = attrs.choices.map((choice, index) => ({
                     ...choice,
@@ -62,7 +64,7 @@ export function makeServer({environment = 'development'} = {}) {
             this.put('/questions/:id', (schema, request) => {
                 const id = request.params.id;
                 const attrs = JSON.parse(request.requestBody);
-                const question = schema.find('question', id);
+                let question = schema.questions.find(id);
 
                 if (!question) {
                     return new Response(404, {}, {error: 'Question not found'});
@@ -119,7 +121,7 @@ export function makeServer({environment = 'development'} = {}) {
                         selectedChoiceId: attrs.selectedChoiceId,
                     };
                 } else if (question.questionType === 2) {
-                    if (!attrs.selectedChoiceIds) {
+                    if (!attrs.selectedChoiceIds || attrs.selectedChoiceIds.length === 0) {
                         return new Response(400, {}, {error: 'Selected choice IDs are required'});
                     }
                     responseData = {
